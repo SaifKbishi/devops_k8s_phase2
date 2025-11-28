@@ -16,6 +16,7 @@ Implementation of Liveness and Readiness Probes for monitoring application healt
 - Python 3.10-slim
 - Flask
 - Docker
+- Minikube
 - K8s: HPA, ConfigMaps and Secrets, CronJobs, Liveness and Readiness Probes
 
 ## Getting Started
@@ -24,6 +25,8 @@ Implementation of Liveness and Readiness Probes for monitoring application healt
 - [Python](https://www.python.org/downloads/) installed
 - [Docker](https://www.docker.com/get-started) installed
 - [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/) installed
+- [Minikube](https://minikube.sigs.k8s.io/docs/start/?plugin_version=chrome_4.0.13&arch=%2Fwindows%2Fx86-64%2Fstable%2F.exe+download) installed
+
 
 ### Setup from Github 
 Build and Run the Project:
