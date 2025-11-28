@@ -1,0 +1,33 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+.env/
+
+# Flask instance folder
+instance/
+
+# Your local configuration
+config.py
+
+# Docker files
+*.log
+docker-compose.override.yml
+
+# Ignore Docker images, containers, volumes, and networks
+**/.docker/
+docker-compose.yml
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+
+# Sensitive files
+.env
+*.pem
+*.key
