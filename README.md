@@ -11,6 +11,8 @@ Implementation of Liveness and Readiness Probes for monitoring application healt
 - Dockerized for easy deployment
 - non-Responsive HTML templates
 - Environment configuration management
+- Scalable and highly available application
+- Orchestrated using Kubernetes
 
 ## Technologies
 - Python 3.10-slim
@@ -40,17 +42,24 @@ Build and Run the Project:
 ```bash
     docker-compose up -d --build
 ```
-
-    Then in your browser go to (http://127.0.0.1:5008/)
-
-### Setup from Docker hub 
-Build and Run the Project:
-- In your terminal, navigate to the project directory and run:
-- Pull the image from Docker Hub:
+- Push to your docker hub (wiht your dockerhub username)
 ```bash
-    docker pull 19820401/devops_k8s_phase2:1.0.0
+	docker push 19820401/devops-k8s-phase2:1.0.0
 ```
+- Deploy deployment.yaml
 ```bash
-    docker run -d -p 5008:5008 --name devops_k8s_phase2-cntnr1 -v devops_k8s_phase2_volume:/app/static 19820401/devops_k8s_phase2:1.0.0
+	kubectl apply -f deployment.yaml
 ```
-    Then in your browser go to (http://127.0.0.1:5008/)
+- Deploy service.yaml
+```bash
+	kubectl apply -f service.yaml
+```
+- Verify Service:
+```bash
+	kubectl get pods -n devops-phase2
+	kubectl get svc -n devops-phase2
+```
+- Access via Minikube:
+```bash
+	minikube service devops-k8s-phase2-service -n devops-phase2
+```
