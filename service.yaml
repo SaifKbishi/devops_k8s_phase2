@@ -1,0 +1,15 @@
+apiVersion: v1
+########## Service ##########
+kind: Service
+metadata:
+  name: devops-k8s-phase2-service
+  namespace: devops-phase2
+spec:
+  selector:
+    app: devops-k8s-phase2
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 5008        # Service port
+      targetPort: 5008  # Container port
+      nodePort: 30008   # External port 
