@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-k8s-phase2-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devops-k8s-phase2
+  template:
+    metadata:
+      labels:
+        app: devops-k8s-phase2
+    spec:
+      containers:
+      - name: devops-k8s-phase2
+        image: devops-k8s-phase2:1.0.0  # Replace with your image name
+        ports:
+        - containerPort: 5008  # Replace with the appropriate port

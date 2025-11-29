@@ -1,11 +1,18 @@
-version: '3.8'
+version: '3.9'
 
 services:
-  web:
-    build: .
+  devops-k8s-phase2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: 19820401/devops-k8s-phase2:1.0.0
+    container_name: devops-k8s-phase2
     ports:
       - "5008:5008"
-    env_file:
-      - .env
     volumes:
-      - ./app:/app
+      - devops_k8s_phase2_volume:/app/static
+    environment:
+      - PYTHONUNBUFFERED=1
+
+volumes:
+  devops_k8s_phase2_volume: {}

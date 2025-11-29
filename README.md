@@ -26,7 +26,7 @@ Implementation of Liveness and Readiness Probes for monitoring application healt
 - [Docker](https://www.docker.com/get-started) installed
 - [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/) installed
 - [Minikube](https://minikube.sigs.k8s.io/docs/start/?plugin_version=chrome_4.0.13&arch=%2Fwindows%2Fx86-64%2Fstable%2F.exe+download) installed
-
+- [Kubectl](https://kubernetes.io/docs/tasks/tools/) installed
 
 ### Setup from Github 
 Build and Run the Project:
@@ -36,11 +36,9 @@ Build and Run the Project:
     git clone https://github.com/SaifKbishi/devops_k8s_phase2
     cd devops_k8s_phase2
 ```
+- Build and Run Docker container
 ```bash
-    docker build -t 19820401/devops_k8s_phase2:1.0.0 .
-```
-```bash
-    docker run -d -p 5008:5008 --name devops_k8s_phase2-cntnr1 -v devops_k8s_phase2_volume:/app/static 19820401/devops_k8s_phase2:1.0.0
+    docker-compose up -d --build
 ```
 
     Then in your browser go to (http://127.0.0.1:5008/)

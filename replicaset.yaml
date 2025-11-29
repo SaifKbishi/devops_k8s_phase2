@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: devops-k8s-phase2-replicaset
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devops-k8s-phase2
+  template:
+    metadata:
+      labels:
+        app: devops-k8s-phase2
+    spec:
+      containers:
+      - name: devops-k8s-phase2
+        image: 19820401/devops-k8s-phase2:1.0.0  # Replace with your image name
+        ports:
+        - containerPort: 5008  # Replace with the appropriate port
