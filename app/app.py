@@ -1,6 +1,7 @@
 # app.py
 print("hello from multistage docker")
 from flask import Flask, jsonify, render_template
+import os
 
 
 app = Flask(__name__)
@@ -8,7 +9,13 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     #return "Hello from Flask in Docker! while trying helm from VSCode"
-    return render_template('index.html' )
+    #my_variable = os.getenv('hello_from_configmap', 'Default Value')
+    my_variable = os.getenv('hello_from_configmap', 'Default Value3')
+    print(os.getenv("GREETINGS_IN_THE_BODY"))
+    print(my_variable)
+    print(os.getenv("hello_from_configmap"))
+    return render_template('index.html', my_variable=my_variable )
+    #return render_template('index.html')
 
 @app.route('/images')
 def images():
@@ -17,7 +24,10 @@ def images():
 
 @app.route('/health')
 def health():
-    return render_template('health.html' )
+    status = "Healthy"
+    #return jsonify(status="healthy"), 200
+    #return render_template('health.html', status=status )
+    return render_template('health.html')
 
 @app.route('/about')
 def about():

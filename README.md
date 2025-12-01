@@ -48,11 +48,8 @@ Build and Run the Project:
 ```
 - Deploy deployment.yaml
 ```bash
-	kubectl apply -f deployment.yaml
-```
-- Deploy service.yaml
-```bash
-	kubectl apply -f service.yaml
+	kubectl apply -f configmap.yaml -n devops-phase2
+	kubectl apply -f deployment.yaml -n devops-phase2	
 ```
 - Verify Service:
 ```bash
