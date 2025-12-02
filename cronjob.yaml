@@ -1,0 +1,32 @@
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: health-check-cronjob
+spec:
+  schedule: "*/5 * * * *"  # Runs every 5 minutes
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: health-check
+            image: curlimages/curl:latest
+            args:
+            - /bin/sh
+            - -c
+            - |
+              TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+              if curl -s --fail http://your-service:8080/health; then
+                RESULT="SUCCESS"
+              else
+                RESULT="FAILURE"
+              fi
+              echo "$TIMESTAMP - Health Check: $RESULT" >> /var/log/health-check.log
+          volumeMounts:
+          - name: health-check-logs
+            mountPath: /var/log
+          restartPolicy: OnFailure
+          volumes:
+          - name: health-check-logs
+            emptyDir: {}

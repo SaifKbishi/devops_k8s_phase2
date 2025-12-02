@@ -6,16 +6,20 @@ import os
 
 app = Flask(__name__)
 
+is_alive = True
+is_ready = False
+
+
 @app.route('/')
 def home():
     #return "Hello from Flask in Docker! while trying helm from VSCode"
-    #my_variable = os.getenv('hello_from_configmap', 'Default Value')
-    my_variable = os.getenv('hello_from_configmap', 'Default Value3')
-    print(os.getenv("GREETINGS_IN_THE_BODY"))
-    print(my_variable)
-    print(os.getenv("hello_from_configmap"))
-    return render_template('index.html', my_variable=my_variable )
-    #return render_template('index.html')
+    my_variable = os.getenv('hello_from_configmap', 'Default Value')
+    #hello_from_configmap01 = os.getenv('hello_from_configmap', 'Sorry could not get hello_from_configmap')
+    hello_from_configmap01 = os.getenv('HELLO_FROM_CONFIGMAP', 'Sorry could not get hello_from_configmap')    
+    greetings_in_the_body02 = os.getenv('greetings_in_the_body', 'Sorry could not get greetings_in_the_body')
+    print(os.getenv('hello_from_configmap', 'Sorry could not get hello_from_configmap in print'))
+    #return render_template('index.html', my_variable01=hello_from_configmap01, my_variable02=greetings_in_the_body02)
+    return render_template('index.html', my_variable=my_variable)
 
 @app.route('/images')
 def images():
@@ -24,10 +28,11 @@ def images():
 
 @app.route('/health')
 def health():
-    status = "Healthy"
-    #return jsonify(status="healthy"), 200
-    #return render_template('health.html', status=status )
-    return render_template('health.html')
+    return render_template('health.html', status="Ok" ) if is_alive else render_template('health.html', status="NOT OK"), 200 if is_alive else 500
+
+@app.route('/ready')
+def ready():
+    return render_template('ready.html', status="READY" ) if is_alive else render_template('ready.html', status="NOT READY"), 200 if is_alive else 500    
 
 @app.route('/about')
 def about():

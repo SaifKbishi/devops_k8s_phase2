@@ -41,22 +41,26 @@ Build and Run the Project:
 - Build and Run Docker container
 ```bash
     docker-compose up -d --build
+	
+	docker-compose build --no-cache
+	docker-compose up -d
 ```
 - Push to your docker hub (wiht your dockerhub username)
 ```bash
-	docker push 19820401/devops-k8s-phase2:1.0.0
+	docker push 19820401/devops-k8s-phase2:1.0.2
 ```
 - Deploy deployment.yaml
 ```bash
-	kubectl apply -f configmap.yaml -n devops-phase2
-	kubectl apply -f deployment.yaml -n devops-phase2	
+	kubectl apply -f configmap.yaml
+	kubectl apply -f cronjob.yaml
+	kubectl apply -f deployment.yaml
 ```
 - Verify Service:
 ```bash
-	kubectl get pods -n devops-phase2
-	kubectl get svc -n devops-phase2
+	kubectl get pods
+	kubectl get svc
 ```
 - Access via Minikube:
 ```bash
-	minikube service devops-k8s-phase2-service -n devops-phase2
+	minikube service devops-k8s-phase2-service
 ```

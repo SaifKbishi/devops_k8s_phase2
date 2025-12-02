@@ -22,8 +22,8 @@ spec:
     spec:
       containers:
       - name: devops-k8s-phase2
-        image: 19820401/devops-k8s-phase2:1.0.0
-        imagePullPolicy: IfNotPresent
+        image: 19820401/devops-k8s-phase2:1.0.2
+        imagePullPolicy: Always #IfNotPresent
         ports:
         - containerPort: 5008
         env:
@@ -37,18 +37,23 @@ spec:
               configMapKeyRef:
                 name: devops-k8s-phase2-configmap
                 key: greetings_in_the_body
-#        livenessProbe:
-#          httpGet:
-#            path: /health
-#            port: 5008
-#          initialDelaySeconds: 30
-#          periodSeconds: 10
-#        readinessProbe:
-#          httpGet:
-#            path: /ready
-#            port: 5008
-#          initialDelaySeconds: 5
-#          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5008
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 2
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 5008
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 2
+          failureThreshold: 3
+
 ---
 # Service 
 apiVersion: v1

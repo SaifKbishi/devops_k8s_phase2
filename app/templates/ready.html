@@ -3,18 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About page</title>
+    <title>Ready Check</title>
 </head>
 <body>
     <div class="topnav">
         <a class="active" href="/">Home</a>
         <a href="/health">Health</a>
+        <a href="/ready">Ready</a>
         <a href="/api/data">API</a>
-        <a href="/images">Images</a>       
+        <a href="/images">Images</a>     
         <a href="/about">About</a>
     </div>
-    <h1>Here is your About page</h1>
+    <h1>Here is your Health Check:</h1>
     <!-- Use url_for to correctly link to the static file -->
-    <h3>All about</h3>
+    <h3>Readyness Check results</h3>
+    <p>Status: {{ status }}</p> 
 </body>
 </html>
