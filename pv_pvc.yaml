@@ -1,0 +1,26 @@
+#PV and PVC definition
+# Persistent Volume Definition
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: health-check-pv
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /mnt/data/health-check
+---
+# Persistent Volume Claim Definition
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: health-check-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+

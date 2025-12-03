@@ -1,4 +1,4 @@
-# My Flask Docker App
+# My Containerized Docker App on K8s
 ## Overview
 A simple Flask application containerized with Docker, demonstrating multiple routes and basic web functionalities.
 Orchestrated using Kubernetes, with ReplicaSet for managing the application, exposed externally using a Kubernetes Service.
@@ -47,20 +47,23 @@ Build and Run the Project:
 ```
 - Push to your docker hub (wiht your dockerhub username)
 ```bash
-	docker push 19820401/devops-k8s-phase2:1.0.2
+	docker push 19820401/devops-k8s-phase2:1.0.0
 ```
 - Deploy deployment.yaml
 ```bash
-	kubectl apply -f configmap.yaml
+	kubectl apply -f configmap.yaml	
 	kubectl apply -f cronjob.yaml
+	kubectl apply -f pv_pvc.yaml
 	kubectl apply -f deployment.yaml
 ```
 - Verify Service:
 ```bash
 	kubectl get pods
 	kubectl get svc
+	kubectl get pvc
 ```
 - Access via Minikube:
 ```bash
 	minikube service devops-k8s-phase2-service
 ```
+

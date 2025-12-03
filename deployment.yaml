@@ -22,21 +22,24 @@ spec:
     spec:
       containers:
       - name: devops-k8s-phase2
-        image: 19820401/devops-k8s-phase2:1.0.2
+        image: 19820401/devops-k8s-phase2:1.0.0
         imagePullPolicy: Always #IfNotPresent
         ports:
         - containerPort: 5008
         env:
-          - name: HELLO_FROM_CONFIGMAP
-            valueFrom:
-              configMapKeyRef:
-                name: devops-k8s-phase2-configmap
-                key: hello_from_configmap 
-          - name: GREETINGS_IN_THE_BODY
-            valueFrom:
-              configMapKeyRef:
-                name: devops-k8s-phase2-configmap
-                key: greetings_in_the_body
+        - name: HELLO_FROM_CONFIGMAP
+          valueFrom:
+            configMapKeyRef:
+              name: devops-k8s-phase2-configmap
+              key: hello_from_configmap 
+        - name: GREETINGS_IN_THE_BODY
+          valueFrom:
+            configMapKeyRef:
+              name: devops-k8s-phase2-configmap
+              key: greetings_in_the_body
+        volumeMounts:
+        - name: health-volume
+          mountPath: /data
         livenessProbe:
           httpGet:
             path: /health
@@ -53,6 +56,10 @@ spec:
           periodSeconds: 10
           timeoutSeconds: 2
           failureThreshold: 3
+      volumes:
+      - name: health-volume
+        persistentVolumeClaim:
+          claimName: health-volume-pvc
 
 ---
 # Service 

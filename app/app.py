@@ -1,6 +1,6 @@
 # app.py
 print("hello from multistage docker")
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, render_template_string
 import os
 
 
@@ -37,6 +37,39 @@ def ready():
 @app.route('/about')
 def about():
     return render_template('about.html' )
+
+
+from flask import Flask, render_template_string
+
+app = Flask(__name__)
+
+@app.route('/health2')
+def health2():
+    try:
+        with open('/data/health-check.log', 'r') as f:
+            logs = f.readlines()
+    except FileNotFoundError:
+        logs = ["No health check logs found."]
+    
+    html_template = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Health Check Results</title>
+        <style>
+            body { font-family: Arial; margin: 20px; }
+            h1 { color: #2c3e50; }
+            pre { background: #f4f4f4; padding: 10px; border-radius: 5px; }
+        </style>
+    </head>
+    <body>
+        <h1>Health Check Results</h1>
+        <pre>{{ logs }}</pre>
+    </body>
+    </html>
+    """
+    return render_template_string(html_template, logs="".join(logs))
+
 
 @app.route('/api/data')
 def get_data():    
