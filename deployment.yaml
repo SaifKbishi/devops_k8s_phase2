@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: devops-k8s-phase2
-        image: 19820401/devops-k8s-phase2:1.0.0
+        image: 19820401/devops-k8s-phase2:1.0.1
         imagePullPolicy: Always #IfNotPresent
         ports:
         - containerPort: 5008
@@ -59,7 +59,7 @@ spec:
       volumes:
       - name: health-volume
         persistentVolumeClaim:
-          claimName: health-volume-pvc
+          claimName: health-check-pvc
 
 ---
 # Service 
@@ -92,7 +92,6 @@ spec:
     name: devops-k8s-phase2
   minReplicas: 1
   maxReplicas: 10
-  #targetCPUUtilizationPercentage: 50
   metrics:
   - type: Resource
     resource:
