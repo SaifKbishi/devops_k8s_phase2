@@ -1,62 +1,48 @@
-
 apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: health-check-cronjob
 spec:
-  schedule: "*/1 * * * *"   # Every 1 minute
-  concurrencyPolicy: Forbid
+  schedule: "*/1 * * * *" # Every 1 minutes  
+  concurrencyPolicy: Forbid          # avoid overlapping jobs
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
-      backoffLimit: 1
       template:
         spec:
-          restartPolicy: OnFailure
           containers:
             - name: health-check
               image: curlimages/curl:latest
-              command: ["/bin/sh", "-c"]
-              args:
+              command: [ "sh", "-c" ]
+              #minikube service devops-k8s-phase2-service --url
+              args:              
                 - |
-                  set -eu
-
-                  # Config: adjust service name/port/path as needed
-                  SERVICE_HOST="devops-k8s-phase2-service"
-                  SERVICE_PORT="5008"
-                  HEALTH_PATH="/health2"
-                  SERVICE_URL="http://${SERVICE_HOST}:${SERVICE_PORT}${HEALTH_PATH}"
-
-                  TIMESTAMP="$(date '+%Y-%m-%d %H:%M:%S %Z')"
-
-                  # Perform health check
-                  if curl -sS -m 10 --fail "${SERVICE_URL}"; then
+                - SERVICE_URL=$(minikube service devops-k8s-phase2-service --url)
+                  if curl -s --fail ${SERVICE_URL}/health2; then
                     RESULT="SUCCESS"
                   else
                     RESULT="FAILURE"
                   fi
-
-                  # Write log to shared PVC
-                  {
-                    echo "SERVICE_URL=${SERVICE_URL}"
-                    echo "${TIMESTAMP} - Health Check ${RESULT}"
-                    echo "----------------------------------------"
-                  } >> /data/health-check.log
-
-                  # Generate simple HTML report from the log
-                  {
-                    echo "<html><head><title>Health Check</title></head><body>"
-                    echo "<h1>Health Check Results</h1>"
-                    echo "<p>Last updated: ${TIMESTAMP}</p>"
-                    echo "<pre>"
-                    sed -e 's/&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g' /data/health-check.log 2>/dev/null || echo "No logs yet."
-                    echo "</pre>"
-                    echo "</body></html>"
-                  } > /data/health.html
+                - echo "${SERVICE_URL}" >> /data/health-check.log
+                - echo "$TIMESTAMP - Health Check ${RESULT}" >> /data/health-check.log
+#                - date '+%Y-%m-%d %H:%M:%S %Z' >> /data/health-check.log
               volumeMounts:
                 - name: health-volume
                   mountPath: /data
+            - name: html-generator
+              image: busybox
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  echo "<html><head><title>Health Check</title></head><body><h1>Health Check Results</h1><div class="topnav"><a class="active" href="/">Home</a><a href="/health">Health</a><a href="/ready">Ready</a><a href="/api/data">API</a><a href="/images">Images</a><a href="/health2">Health2</a><a href="/about">About</a></div><pre>" > /var/log/health.html
+                  cat /var/log/health-check.log >> /var/log/health.html
+                  echo "</pre></body></html>" >> /var/log/health.html
+              volumeMounts:
+                - name: health-volume
+                  mountPath: /var/log
+          restartPolicy: OnFailure
           volumes:
             - name: health-volume
               persistentVolumeClaim:

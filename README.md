@@ -47,7 +47,7 @@ Build and Run the Project:
 ```
 - Push to your docker hub (wiht your dockerhub username)
 ```bash
-	docker push 19820401/devops-k8s-phase2:1.0.1
+	docker push 19820401/devops-k8s-phase2:1.0.5
 ```
 - Deploy deployment.yaml
 ```bash

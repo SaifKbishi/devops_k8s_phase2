@@ -54,5 +54,6 @@ def health2():
         abort(404, description="Report not generated yet. Wait for the next CronJob run.")
 
 
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5008, debug=True)
