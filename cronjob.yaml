@@ -47,8 +47,8 @@ spec:
               command:
                 - /bin/sh
                 - -c
-                - |
-                  echo "<html><head><title>Health Check</title></head><body><h1>Health Check Results</h1><div class="topnav"><a class="active" href="/">Home</a><a href="/health">Health</a><a href="/ready">Ready</a><a href="/api/data">API</a><a href="/images">Images</a><a href="/health2">Health2</a><a href="/about">About</a></div><pre>" > /var/log/health.html
+                - |                  
+                  echo "<html><head><title>Health Check</title><style>a{margin-right: 3px;}</style></head><body><div class="topnav" style:"margin-right: 10px"><a class="active" href="/">Home </a><a href="/health">Health</a><a href="/ready">Ready</a><a href="/api/data">API</a><a href="/images">Images</a><a href="/health2">Health2</a><a href="/about">About</a></div><h1>Health Check Results</h1><pre>" > /var/log/health.html
                   cat /var/log/health-check.log >> /var/log/health.html
                   echo "</pre></body></html>" >> /var/log/health.html
               volumeMounts:
