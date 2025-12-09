@@ -13,6 +13,3 @@ spec:
       port: 5008        # Service port
       targetPort: 5008  # Container port
       nodePort: 30008   # External port 
-#HPA test
-  type: ClusterIP
-#HPA test

@@ -39,7 +39,7 @@ spec:
           - -c
           - |
             printf "healthy" > /usr/share/nginx/html/healthz
-            printf "healthy \n" >/data/health-check.log
+            printf "healthy \n" >> /data/health-check.log
             nginx -g 'daemon off;'
           #HPA test
         env:
@@ -76,3 +76,4 @@ spec:
       - name: health-volume
         persistentVolumeClaim:
           claimName: health-check-pvc
+

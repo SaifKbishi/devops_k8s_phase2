@@ -40,8 +40,6 @@ Build and Run the Project:
 ```
 - Build and Run Docker container
 ```bash
-    docker-compose up -d --build
-	
 	docker-compose build --no-cache
 	docker-compose up -d
 ```
@@ -49,13 +47,18 @@ Build and Run the Project:
 ```bash
 	docker push 19820401/devops-k8s-phase2:1.0.5
 ```
-- Deploy deployment.yaml
+- Deploy yaml files
 ```bash
-	kubectl apply -f configmap.yaml	
+	kubectl apply -f configmap.yaml
 	kubectl apply -f cronjob.yaml
 	kubectl apply -f pv_pvc.yaml
+	kubectl apply -f service.yaml
+	kubectl apply -f hpa.yaml
+	kubectl apply -f loadgenerator.yaml
 	kubectl apply -f deployment.yaml
+	minikube service devops-k8s-phase2-service
 ```
+
 - Verify Service:
 ```bash
 	kubectl get pods
