@@ -1,11 +1,9 @@
-version: '3.9'
-
 services:
   devops-k8s-phase2:
     build:
       context: .
       dockerfile: Dockerfile
-    image: 19820401/devops-k8s-phase2:1.0.5
+    image: 19820401/devops-k8s-phase2:1.0.1
     container_name: devops-k8s-phase2
     ports:
       - "5008:5008"

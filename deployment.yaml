@@ -22,26 +22,11 @@ spec:
     spec:
       containers:
       - name: devops-k8s-phase2
-        image: 19820401/devops-k8s-phase2:1.0.5
+        image: 19820401/devops-k8s-phase2:1.0.1
         imagePullPolicy: Always #IfNotPresent
         ports:
         - containerPort: 5008
-        #HPA test
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "128Mi"
-          limits:
-            cpu: "500m"
-            memory: "256Mi"
-        args:
-          - /bin/sh
-          - -c
-          - |
-            printf "healthy" > /usr/share/nginx/html/healthz
-            printf "healthy \n" >> /data/health-check.log
-            nginx -g 'daemon off;'
-          #HPA test
+
         env:
         - name: HELLO_FROM_CONFIGMAP
           valueFrom:
