@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: devops-k8s-phase2
-        image: 19820401/devops-k8s-phase2:1.0.1
+        image: 19820401/devops-k8s-phase2:2.0.0
         imagePullPolicy: Always #IfNotPresent
         ports:
         - containerPort: 5008

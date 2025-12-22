@@ -45,18 +45,12 @@ Build and Run the Project:
 ```
 - Push to your docker hub (wiht your dockerhub username)
 ```bash
-	docker push 19820401/devops-k8s-phase2:1.0.1
+	docker push 19820401/devops-k8s-phase2:2.0.0
 ```
 - Deploy yaml files
 ```bash
-	kubectl apply -f configmap.yaml
-	kubectl apply -f cronjob.yaml
-	kubectl apply -f pv_pvc.yaml
-	kubectl apply -f service.yaml
-	kubectl apply -f hpa.yaml
-	kubectl apply -f loadgenerator.yaml
-	kubectl apply -f deployment.yaml
-	minikube service devops-k8s-phase2-service
+	kubectl apply -f .
+	minikube addons enable metrics-server
 ```
 
 - Verify Service:
@@ -64,6 +58,7 @@ Build and Run the Project:
 	kubectl get pods
 	kubectl get svc
 	kubectl get pvc
+	kubectl get hpa
 ```
 - Access via Minikube:
 ```bash

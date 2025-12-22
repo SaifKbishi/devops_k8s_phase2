@@ -1,10 +1,14 @@
 # app.py
 from flask import Flask, jsonify, render_template, request, send_file, abort
+import threading
+import math
 import os
-from collections import deque
+
 
 app = Flask(__name__)
 LOG_PATH = "/data/health-check.log"
+HEALTH_HTML_PATH = "/data/health.html"
+LOAD_RUNNING=0
 is_alive = True
 is_ready = False
 
@@ -22,7 +26,6 @@ def images():
 
 @app.route('/health')
 def health():
-#    return jsonify(status = "alive"), 200
     return render_template('health.html', status="Ok" ) if is_alive else render_template('health.html', status="NOT OK"), 200 if is_alive else 500
 
 @app.route('/ready')
@@ -42,7 +45,7 @@ def get_data():
     }
     return jsonify(sample_data)
 
-HEALTH_HTML_PATH = "/data/health.html"
+
 
 @app.route('/health2')
 def health2():
@@ -51,9 +54,25 @@ def health2():
         return send_file(HEALTH_HTML_PATH, mimetype="text/html")
     else:
         # Not ready yet (e.g., first CronJob hasn’t run)
-        abort(404, description="Report not generated yet. Wait for the next CronJob run.")
+        abort(404, description="Report not generated yet. Wait for the next CronJob run. Refresh page after some time.")
 
 
+def cpu_load():
+    while True:
+        for i in range(1000000):
+            print(math.sqrt(i ** 2))
+
+@app.route('/loadtest')
+def load():
+    global LOAD_RUNNING
+    if LOAD_RUNNING==0:
+        LOAD_RUNNING = 1
+        for _ in range(2):
+            threading.Thread(target=cpu_load).start()
+        #return "load_started"
+        return render_template('loadtest.html', status="Load Test Started")
+    return render_template('loadtest.html', status="Load Test already Started")
+    #return "load already started"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5008, debug=True)
