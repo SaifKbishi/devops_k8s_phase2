@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: 19820401/devops-k8s-phase2:2.0.0
+    image: 19820401/devops-k8s-phase2:3.0.0
     container_name: devops-k8s-phase2
     ports:
       - "5008:5008"
