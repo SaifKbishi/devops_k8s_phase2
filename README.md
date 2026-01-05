@@ -55,6 +55,7 @@ Build and Run the Project:
 
 - Verify Service:
 ```bash
+	kubectl get deployments
 	kubectl get pods
 	kubectl get svc
 	kubectl get pvc
