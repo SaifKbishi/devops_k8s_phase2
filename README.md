@@ -40,6 +40,7 @@ Build and Run the Project:
 ```
 - Build and Run Docker container
 ```bash
+	cd app
 	docker-compose build --no-cache
 	docker-compose up -d
 ```
@@ -49,13 +50,13 @@ Build and Run the Project:
 ```
 - Deploy yaml files
 ```bash
+	cd ..
 	kubectl apply -f .
 	minikube addons enable metrics-server
 ```
 
 - Verify Service:
 ```bash
-	kubectl get deployments
 	kubectl get pods
 	kubectl get svc
 	kubectl get pvc
