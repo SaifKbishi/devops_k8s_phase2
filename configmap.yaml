@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: devops-k8s-phase2-configmap
-#  namespace: devops-phase2
-data:
-  hello_from_configmap: "Hello from ConfigMap."
-  greetings_in_the_body: "Greeting from configMap."
