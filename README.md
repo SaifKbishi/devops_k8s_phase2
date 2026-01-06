@@ -5,6 +5,7 @@ Orchestrated using Kubernetes, with ReplicaSet for managing the application, exp
 With implementation of Horizontal Pod Autoscaling (HPA) based on CPU usage.
 Use ConfigMaps and Secrets to manage configuration, set up with Kubernetes CronJobs to automate periodic tasks.
 Implementation of Liveness and Readiness Probes for monitoring application health.
+Packaged with Helm Chart
 
 ## Features
 - Flask server with multiple routes
@@ -13,6 +14,7 @@ Implementation of Liveness and Readiness Probes for monitoring application healt
 - Environment configuration management
 - Scalable and highly available application
 - Orchestrated using Kubernetes
+- Helm Chart packaged
 
 ## Technologies
 - Python 3.10-slim
@@ -20,6 +22,7 @@ Implementation of Liveness and Readiness Probes for monitoring application healt
 - Docker
 - Minikube
 - K8s: HPA, ConfigMaps and Secrets, CronJobs, Liveness and Readiness Probes
+- Helm Chart
 
 ## Getting Started
 
@@ -37,6 +40,7 @@ Build and Run the Project:
 ```bash
     git clone https://github.com/SaifKbishi/devops_k8s_phase2
     cd devops_k8s_phase2
+	git checkout phase3
 ```
 - Build and Run Docker container
 ```bash
@@ -47,14 +51,13 @@ Build and Run the Project:
 ```bash
 	docker push 19820401/devops-k8s-phase2:3.0.0
 ```
-- Create helm chart
+- Create helm chart (already created)
 ```bash
 	helm create phase3
 ```
 
 - Package helm chart
 ```bash
-	cd app
 	helm package phase3
 ```
 
@@ -77,6 +80,7 @@ Build and Run the Project:
   export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=phase3,app.kubernetes.io/instance=phase3-release" -o jsonpath="{.items[0].metadata.name}")
   export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
   echo "Visit http://127.0.0.1:8080 to use your application"
+  kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
 ```
 
 - If you need to uninstall a helm chart
