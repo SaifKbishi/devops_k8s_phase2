@@ -14,10 +14,7 @@ is_ready = False
 
 @app.route('/')
 def home():
-    my_variable = os.getenv('hello_from_configmap', 'Default Value')
-    hello_from_configmap01 = os.getenv('HELLO_FROM_CONFIGMAP', 'Sorry could not get hello_from_configmap')
-    greetings_in_the_body02 = os.getenv('greetings_in_the_body', 'Sorry could not get greetings_in_the_body')
-    return render_template('index.html', my_variable=my_variable)
+    return render_template('index.html')
 
 @app.route('/images')
 def images():
