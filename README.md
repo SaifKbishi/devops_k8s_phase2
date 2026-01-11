@@ -41,47 +41,18 @@ Build and Run the Project:
 - Build and Run Docker container
 ```bash
 	cd app
-	docker-compose up -d --build
+	docker-compose build --no-cache
+	docker-compose up -d
 ```
 - Push to your docker hub (wiht your dockerhub username)
 ```bash
 	docker push 19820401/devops-k8s-phase2:3.0.0
 ```
-- Create helm chart
+- Deploy yaml files
 ```bash
-	helm create phase3
-```
-
-- Package helm chart
-```bash
-	cd app
-	helm package phase3
-```
-
-- To make sure you don't have the same release installed:
-```bash
-	helm list	
-```
-- Install helm release
-```bash
-	helm install phase3-release ./phase3-0.1.0.tgz
-```
-
-- Upgrade helm release (if needed)
-```bash
-	helm upgrade phase3-release ./phase3-0.1.0.tgz
-```
-
-- Get the application URL by running these commands:
-```bash
-  export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=phase3,app.kubernetes.io/instance=phase3-release" -o jsonpath="{.items[0].metadata.name}")
-  export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
-  echo "Visit http://127.0.0.1:8080 to use your application"
-```
-
-- If you need to uninstall a helm chart
-```bash
-	helm uninstall phase3-release
+	cd ..
+	kubectl apply -f .
+	minikube addons enable metrics-server
 ```
 
 - Verify Service:
