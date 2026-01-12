@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: devops-k8s-phase2-loadtest
+  labels: { app: devops-k8s-phase2 }
+spec:
+  restartPolicy: Never
+  containers:
+    - name: curl
+      image: curlimages/curl:8.8.0
+      command: ["/bin/sh","-c"]
+      # Loops HTTP GETs to drive CPU; adjust URL path to a heavier endpoint if you have one
+      args:
+        - |
+          echo "Starting load against http://devops-k8s-phase2-service.default.svc.cluster.local/ ..."
+          while true; do
+            curl -s -o /dev/null http://devops-k8s-phase2-service.default.svc.cluster.local/
+          done
