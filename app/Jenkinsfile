@@ -39,7 +39,8 @@ pipeline {
                     // Navigate to the directory containing your Dockerfile and docker-compose.yml
                     dir('app') { // Replace with your app's directory structure
                         // Build and create containers using Docker Compose
-                        sh 'docker compose up --build -d' // Builds images and starts the containers in detached mode
+                        //sh 'docker compose up --build -d' // Builds images and starts the containers in detached mode
+                        sh 'docker build -t 19820401/devops-k8s-phase2:3.0.0 .' // Build the Docker image
                     }
                     echo 'Docker containers built and started successfully.'
                 }
