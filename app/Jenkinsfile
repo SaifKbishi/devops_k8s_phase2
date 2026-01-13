@@ -1,5 +1,16 @@
 pipeline {
     agent { label 'jenkins-agent' }
+    
+    environment {
+        REGISTRY      = 'docker.io'                        // change for GHCR/ECR/ACR
+        IMAGE_REPO    = 'your-docker-username/flask-helm-demo'
+        IMAGE_TAG     = "${env.BUILD_NUMBER}"              // or git commit SHA
+        K8S_NAMESPACE = 'dev'
+        RELEASE_NAME  = 'flask'                            // helm release name
+        CHART_DIR     = 'charts/flask-app'
+        CHART_VERSION = "0.1.${env.BUILD_NUMBER}"
+    }
+
     stages {
         stage('Clone') {
             steps {
@@ -7,6 +18,18 @@ pipeline {
                     // Checkout code from GitHub
                     git branch: 'jenkins', url: 'https://github.com/SaifKbishi/devops_k8s_phase2.git'
                     echo 'Code cloned successfully.'
+                }
+            }
+        }
+        stage('Login & Push') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds',
+                                                usernameVariable: 'REG_USER',
+                                                passwordVariable: 'REG_PASS')]) {
+                sh '''
+                    echo "$REG_PASS" | docker login -u "$REG_USER" --password-stdin docker.io
+                    docker push 19820401/devops-k8s-phase2:3.0.0
+                '''
                 }
             }
         }
