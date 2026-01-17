@@ -51,14 +51,7 @@ You need to have a Jenkins controller running, java istalled (openjdk-17-jdk), a
 	Save
 
 I have used the architecture for Minikube + Jenkins where everything on One Machine
-┌─────────────────────────────────────────┐\
-│&emsp;&emsp;Single EC2 Instance&emsp;&emsp;│\
-│                                         │\
-│  ┌──────────────┐    ┌───────────────┐  │\
-│  │   Jenkins    │    │   Minikube    │  │\
-│  │  Controller  │--> │   (Docker)    │  │\
-│  │  + Agent     │    │               │  │\
-│  └──────────────┘    └───────────────┘  │\
-└─────────────────────────────────────────┘\
+
+
 
 - Run the job in jenkins UI
