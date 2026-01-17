@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'jenkins-agent' }
+    agent { label 'jnlp-agent' }
     
     environment {
         REGISTRY          = 'docker.io'
