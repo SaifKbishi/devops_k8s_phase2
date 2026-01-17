@@ -52,7 +52,7 @@ You need to have a Jenkins controller running, java istalled (openjdk-17-jdk), a
 
 I have used the architecture for Minikube + Jenkins where everything on One Machine
 ┌─────────────────────────────────────────┐\
-│&emsp&emspSingle EC2 Instance&emsp&emsp│\
+│&emsp;&emsp;Single EC2 Instance&emsp;&emsp;│\
 │                                         │\
 │  ┌──────────────┐    ┌───────────────┐  │\
 │  │   Jenkins    │    │   Minikube    │  │\
