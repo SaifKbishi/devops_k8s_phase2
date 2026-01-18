@@ -1,0 +1,98 @@
+pipeline {
+    agent { label 'jenkins-agent' }
+    
+    environment {
+        REGISTRY      = 'docker.io'                        // change for GHCR/ECR/ACR
+        IMAGE_REPO    = 'your-docker-username/flask-helm-demo'
+        IMAGE_TAG     = "${env.BUILD_NUMBER}"              // or git commit SHA
+        K8S_NAMESPACE = 'dev'
+        RELEASE_NAME  = 'flask'                            // helm release name
+        CHART_DIR     = 'charts/flask-app'
+        CHART_VERSION = "0.1.${env.BUILD_NUMBER}"
+    }
+
+    stages {
+        stage('Clone') {
+            steps {
+                script {
+                    // Checkout code from GitHub
+                    git branch: 'jenkins', url: 'https://github.com/SaifKbishi/devops_k8s_phase2.git'
+                    echo 'Code cloned successfully.'
+                }
+            }
+        }
+
+        stage('Build with Docker Build') {
+            steps {
+                script {
+                    // Navigate to the directory containing your Dockerfile and docker-compose.yml
+                    dir('app') { // Replace with your app's directory structure
+                        // Build and create containers using Docker Compose
+                        //sh 'docker compose up --build -d' // Builds images and starts the containers in detached mode
+                        sh 'docker build -t 19820401/devops-k8s-phase2:3.0.0 .' // Build the Docker image
+                    }
+                    echo 'Docker containers built successfully.'
+                }
+            }
+        }
+        stage('Push to dockerhub') {
+            steps {
+                script {
+                    sh 'docker push 19820401/devops-k8s-phase2:3.0.0'
+                    echo 'Image pushed to Docker Hub successfully.'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                script {
+                    dir('app') {
+                        // Run tests (assuming tests are within the containers)
+                        // Replace `app-name` with the appropriate service name defined in your docker-compose.yml
+                        //sh 'docker-compose exec app-name ./run-tests.sh' // Assuming you have a script to run tests
+                        echo 'Tests executed successfully. no real tests were run.'
+                    }
+                }
+            }
+        }
+        stage('Create Helm Chart') {
+            steps {
+                script {
+                    // Create Helm Chart
+                    sh 'helm create phase3' 
+                }
+            }
+        }
+        stage('Package with Helm') {
+            steps {
+                script {
+                    // Package the application with Helm
+                    dir('app') {
+                        sh 'helm package phase3' // Adjust the path as necessary
+                        echo 'Application packaged with Helm successfully.'                         
+                    }
+                    
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                script {
+                    // Deploy the application using Helm
+                    // Ensure you are authenticated to the Kubernetes cluster beforehand
+                    sh 'helm upgrade phase3-release ./phase3-0.1.0.tgz' 
+                }
+            }
+        }
+        stage('Open Application') {
+            steps {
+                script {
+                    sh 'export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=phase3,app.kubernetes.io/instance=phase3-release" -o jsonpath="{.items[0].metadata.name}")'
+                    sh 'export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")'
+                    sh 'echo "Visit http://127.0.0.1:8080 to use your application"'
+                    sh 'kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT'
+                }
+            }
+        }
+    }
+}
