@@ -54,8 +54,10 @@ pipeline {
     stage('Docker: Build & Push') {
       steps {
         withCredentials([usernamePassword(credentialsId: params.DOCKERHUB_CREDENTIALS_ID, usernameVariable: 'HUB_USER', passwordVariable: 'HUB_PASS')]) {
-          sh '''set -euxo pipefail
+          sh '''#!/usr/bin/env bash
+          set -euxo pipefail
           echo "$HUB_PASS" | docker login -u "$HUB_USER" --password-stdin
+          cd app
           docker build -f "${DOCKERFILE}" -t "${DOCKER_IMAGE}" .
           docker push "${DOCKER_IMAGE}"
           docker logout || true
@@ -66,7 +68,8 @@ pipeline {
 
     stage('Tests: Smoke (container)') {
       steps {
-        sh '''set -euxo pipefail
+        sh '''#!/usr/bin/env bash
+        set -euxo pipefail
         # Run container and verify HTTP endpoint responds
         cleanup() { docker rm -f app-test >/dev/null 2>&1 || true; }
         trap cleanup EXIT
@@ -91,7 +94,8 @@ pipeline {
 
     stage('Helm: Create/Update Chart') {
       steps {
-        sh '''set -euxo pipefail
+        sh '''#!/usr/bin/env bash
+        set -euxo pipefail
         mkdir -p helm
         if [ ! -d "${CHART_DIR}" ]; then
           echo "Creating Helm chart scaffold at ${CHART_DIR}"
@@ -121,7 +125,8 @@ pipeline {
 
     stage('Helm: Package') {
       steps {
-        sh '''set -euxo pipefail
+        sh '''#!/usr/bin/env bash
+        set -euxo pipefail
         mkdir -p helm/packages
         helm package "${CHART_DIR}" -d helm/packages
         ls -la helm/packages
@@ -133,7 +138,8 @@ pipeline {
       steps {
         withCredentials([file(credentialsId: params.KUBECONFIG_CREDENTIALS_ID, variable: 'KUBECONFIG_FILE')]) {
           withEnv(["KUBECONFIG=${KUBECONFIG_FILE}"]) {
-            sh '''set -euxo pipefail
+            sh '''#!/usr/bin/env bash
+            set -euxo pipefail
             # Use fullnameOverride to make resource names predictable
             helm upgrade --install "${RELEASE_NAME}" "${CHART_DIR}" \
               --namespace "${K8S_NAMESPACE}" \
