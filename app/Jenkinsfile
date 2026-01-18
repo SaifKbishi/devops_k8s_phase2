@@ -1,5 +1,5 @@
 pipeline {
-  agent { label 'Jagent'}
+  agent {label 'Jagent'}
 
   parameters {
     // --- Git ---
@@ -8,7 +8,7 @@ pipeline {
 
     // --- Docker / Image ---
     string(name: 'DOCKERFILE', defaultValue: 'Dockerfile', description: 'Dockerfile path')
-    string(name: 'DOCKERHUB_NAMESPACE', defaultValue: '19820401', description: 'Docker Hub namespace (username or org)')
+    string(name: 'DOCKERHUB_NAMESPACE', defaultValue: 'saifkbishi', description: 'Docker Hub namespace (username or org)')
     string(name: 'IMAGE_NAME', defaultValue: 'devops_k8s_phase2', description: 'Image name in Docker Hub')
     string(name: 'IMAGE_TAG', defaultValue: '', description: 'Optional. If empty, uses short commit SHA')
 
