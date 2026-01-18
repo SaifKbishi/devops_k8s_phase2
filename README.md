@@ -147,3 +147,13 @@ I have used the architecture jenkinscontroller and jenkins agent are on 2 differ
 		3. Install Git
 		4. Install Minikube
 
+- Parameters you need to choose
+	Branch to checkout: jenkins
+	Dokerfile path: app/Dockerfile
+	Docker hub namespace: saifkbishi
+	Image name in Docker hub: devops_k8s_phase2
+	IMAGE_TAG: 3.0.0
+	Container port: 8080
+	HTTP healthcheck: /health
+	Helm release name: phase3
+	Docker hub credintials: docker-hub-saif
