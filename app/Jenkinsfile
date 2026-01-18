@@ -57,7 +57,6 @@ pipeline {
           sh '''#!/usr/bin/env bash
           set -euxo pipefail
           echo "$HUB_PASS" | docker login -u "$HUB_USER" --password-stdin
-          cd app
           docker build -f "${DOCKERFILE}" -t "${DOCKER_IMAGE}" .
           docker push "${DOCKER_IMAGE}"
           docker logout || true
